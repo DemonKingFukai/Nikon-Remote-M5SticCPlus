@@ -1,5 +1,6 @@
 #include <M5StickCPlus.h>
 #include <IRremote.h>
+#include <IRremoteInt.h>
 
 // Pin number for the IR LED
 const int irLedPin = 9;
@@ -22,13 +23,13 @@ void loop() {
   // Send the IR data when the button is held down
   if (M5.BtnA.isPressed()) {
     // IR data
-    uint32_t data[] = {1989, 27513, 408, 1569, 386, 3503, 408, 62013, 1985, 27517, 404, 1573, 382, 3506, 405};
+    uint16_t rawbuf[] = {1989, 27513, 408, 1569, 386, 3503, 408, 62013, 1985, 27517, 404, 1573, 382, 3506, 405};
     // Frequency of the IR data (in Hz)
     unsigned int frequency = 38000;
     // Duty cycle of the IR data (as a fraction of the period)
-    unsigned int dutyCycle = 33; // duty cycle is a percentage, so multiply by 100
+    unsigned int rawlen = 33; // duty cycle is a percentage, so multiply by 100
     // Send the IR data
-    irsend.sendRaw(data, 15, frequency, dutyCycle);
+    irsend.sendRaw(rawbuf, frequency, rawlen);
     // Wait 1 second before sending the data again
     delay(1000);
     // Draw a circle on the display to indicate that the IR data is being transmitted
